@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
         parentColumns = ["id"],
         childColumns = ["chainId"],
         onDelete = ForeignKey.CASCADE
-    )],
+    )], 
     indices = [Index("chainId")]
 )
 data class StoreEntity(
