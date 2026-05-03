@@ -14,16 +14,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.availabilityofgoods.feature.ui.product.ProductViewModel
+import com.example.availabilityofgoods.feature.ui.product.StoreViewModel
 
 @Composable
-fun ProductScreen(viewModel: ProductViewModel, objectName: String?){
+fun ProductScreen(viewModel: StoreViewModel, objectName: String?){
 
-    val products by viewModel.products.collectAsState()
+    val products by viewModel.availability.collectAsState()
 
     LazyColumn {
         items(products){ product ->
-            if (product.name == objectName) {
+            if (product.productName == objectName) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -31,13 +31,7 @@ fun ProductScreen(viewModel: ProductViewModel, objectName: String?){
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(product.name + " в " + product.store)
-
-                    Button(onClick = {
-                        viewModel.onToggleAvailability(product)
-                    }) {
-                        Text(if (product.available) "Є в кількості " + product.qty else "Немає")
-                    }
+                    Text(product.productName + " в " + product.storeId)
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.example.availabilityofgoods.feature.ui.screens
 
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -13,13 +14,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.availabilityofgoods.feature.ui.product.ProductViewModel
-import kotlin.String
+import com.example.availabilityofgoods.feature.ui.product.StoreViewModel
 
+
+private val CARD_HEIGHT_SMALL = 80.dp
+private val CARD_HEIGHT_LARGE = 200.dp
 @Composable
-fun MainScreen(navController: NavController, viewModel: ProductViewModel) {
+fun MainScreen(navController: NavController, viewModel: StoreViewModel) {
     var text by remember { mutableStateOf("") }
-    val items = listOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5")
+
 
     Scaffold { padding ->
         Column(
@@ -33,17 +36,18 @@ fun MainScreen(navController: NavController, viewModel: ProductViewModel) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                var query = text.trim().lowercase()
+
                 OutlinedTextField(
                     value = text,
                     onValueChange = { text = it },
-                    modifier = Modifier.weight(1f), // займає весь доступний простір
+                    modifier = Modifier.weight(1f),
                     label = { Text("Назва товару") }
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
 
                 Button(onClick = {
+                    var query = text.trim().lowercase()
                     if (text.isNotBlank()) {
                         navController.navigate("product_screen/${query}")
                     }
@@ -52,15 +56,14 @@ fun MainScreen(navController: NavController, viewModel: ProductViewModel) {
                 }
             }
 
-            // Інші твої елементи
-            SimpleLazyRow(items = items, cardHeight = 20.dp, cardWidth = 120.dp)
-            SimpleLazyRow(items = items, cardHeight = 200.dp, fillMaxWidth = true)
+            SimpleLazyRow(items = viewModel.items, cardHeight = CARD_HEIGHT_SMALL, cardWidth = 120.dp)
+            SimpleLazyRow(items = viewModel.items, cardHeight = CARD_HEIGHT_LARGE, fillMaxWidth = true)
 
             TextWithArrow()
-            SimpleLazyRow(items = items, cardHeight = 80.dp, cardWidth = 120.dp)
+            SimpleLazyRow(items = viewModel.items, cardHeight = 80.dp, cardWidth = 120.dp)
             Spacer(modifier = Modifier.height(16.dp))
             TextWithArrow()
-            SimpleLazyRow(items = items, cardHeight = 140.dp, cardWidth = 120.dp)
+            SimpleLazyRow(items = viewModel.items, cardHeight = 140.dp, cardWidth = 120.dp)
             ButtonRow()
         }
     }
